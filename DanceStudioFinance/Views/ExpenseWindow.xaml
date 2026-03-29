@@ -3,10 +3,67 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:DanceStudioFinance.Views"
         mc:Ignorable="d"
-        Title="ExpenseWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="Gider Ekle"
+        Height="500"
+        Width="500"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid Background="#F5F5F5" Margin="20">
+        <Border Background="White" CornerRadius="10" Padding="20">
+            <StackPanel>
+
+                <TextBlock Text="Gider Ekle"
+                           FontSize="24"
+                           FontWeight="Bold"
+                           Margin="0,0,0,20"/>
+
+                <TextBlock Text="Kategori"/>
+                <ComboBox x:Name="cmbCategory" Margin="0,5,0,15">
+                    <ComboBoxItem Content="Kira"/>
+                    <ComboBoxItem Content="Elektrik"/>
+                    <ComboBoxItem Content="Su"/>
+                    <ComboBoxItem Content="İnternet"/>
+                    <ComboBoxItem Content="Eğitmen Maaşı"/>
+                    <ComboBoxItem Content="Temizlik"/>
+                    <ComboBoxItem Content="Malzeme"/>
+                    <ComboBoxItem Content="Diğer"/>
+                </ComboBox>
+
+                <TextBlock Text="Tutar"/>
+                <Grid Margin="0,5,0,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="40"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox x:Name="txtAmount"
+                             Grid.Column="0"
+                             PreviewTextInput="txtAmount_PreviewTextInput"/>
+
+                    <TextBlock Grid.Column="1"
+                               Text="₺"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"
+                               FontSize="16"/>
+                </Grid>
+
+                <TextBlock Text="Tarih"/>
+                <DatePicker x:Name="dpDate" Margin="0,5,0,15"/>
+
+                <TextBlock Text="Not"/>
+                <TextBox x:Name="txtNote"
+                         Margin="0,5,0,20"
+                         Height="80"
+                         TextWrapping="Wrap"/>
+
+                <Button Content="Kaydet"
+                        Height="40"
+                        FontSize="16"
+                        Click="btnSaveExpense_Click"/>
+
+            </StackPanel>
+        </Border>
     </Grid>
 </Window>
+    
