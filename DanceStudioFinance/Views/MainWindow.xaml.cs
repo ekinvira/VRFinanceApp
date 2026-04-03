@@ -100,5 +100,11 @@ namespace DanceStudioFinance.Views
             LoadDashboard();
             LoadRecentRecords();
         }
+
+        private void btnReports_Click(object sender, RoutedEventArgs e)
+        {
+            ReportsWindow window = new ReportsWindow();
+            window.ShowDialog();
+        }
     }
 }
