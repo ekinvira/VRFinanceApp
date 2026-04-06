@@ -258,8 +258,8 @@
                                Foreground="#6B7280"
                                TextWrapping="Wrap"/>
 
-                    <UniformGrid Grid.Row="2"
-                                 Columns="2"
+                    <UniformGrid Grid.Row="3"
+                                 Columns="3"
                                  HorizontalAlignment="Center">
                         <Button Content="Gelir Ekle"
                                 Width="220"
@@ -288,6 +288,20 @@
                                 Cursor="Hand"
                                 HorizontalContentAlignment="Center"
                                 VerticalContentAlignment="Center"/>
+
+                        <Button Content="Envanter Ekle"
+                                Width="220"
+                                Height="56"
+                                Margin="10"
+                                Click="btnInventory_Click"
+                                FontSize="16"
+                                FontWeight="SemiBold"
+                                Background="#2563EB"
+                                Foreground="White"
+                                BorderThickness="0"
+                                Cursor="Hand"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Center"/> 
                     </UniformGrid>
                 </Grid>
             </Border>

@@ -12,5 +12,7 @@ namespace DanceStudioFinance.Data
         {
             optionsBuilder.UseSqlite("Data Source=finance.db");
         }
+
+        public DbSet<InventoryItem> InventoryItems { get; set; }
     }
 }

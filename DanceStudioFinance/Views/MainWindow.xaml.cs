@@ -101,6 +101,11 @@ namespace DanceStudioFinance.Views
             LoadRecentRecords();
         }
 
+        private void btnInventory_Click(object sender, RoutedEventArgs e)
+        {
+            InventoryWindow window = new InventoryWindow();
+            window.ShowDialog();
+        }
         private void btnReports_Click(object sender, RoutedEventArgs e)
         {
             ReportsWindow window = new ReportsWindow();

@@ -1,0 +1,64 @@
+﻿<Window x:Class="DanceStudioFinance.Views.InventoryWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Envanter Ekle"
+        Height="550"
+        Width="450"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid Background="#F5F5F5" Margin="20">
+        <Border Background="White" CornerRadius="10" Padding="20">
+            <StackPanel>
+
+                <TextBlock Text="Envanter Ekle"
+                           FontSize="24"
+                           FontWeight="Bold"
+                           Margin="0,0,0,20"/>
+
+                <!-- Ürün -->
+                <TextBlock Text="Ürün Adı"/>
+                <TextBox x:Name="txtItemName" Margin="0,5,0,15"/>
+
+                <!-- Kategori -->
+                <TextBlock Text="Kategori"/>
+                <ComboBox x:Name="cmbCategory" Margin="0,5,0,15">
+                    <ComboBoxItem Content="Kostüm"/>
+                    <ComboBoxItem Content="Ekipman"/>
+                    <ComboBoxItem Content="Temizlik"/>
+                    <ComboBoxItem Content="Resim Malzemesi"/>
+                    <ComboBoxItem Content="Diğer"/>
+                </ComboBox>
+
+                <!-- Adet -->
+                <TextBlock Text="Adet"/>
+                <TextBox x:Name="txtQuantity"
+                         Margin="0,5,0,15"
+                         PreviewTextInput="OnlyNumber"/>
+
+                <!-- Fiyat -->
+                <TextBlock Text="Birim Fiyat"/>
+                <TextBox x:Name="txtPrice"
+                         Margin="0,5,0,15"
+                         PreviewTextInput="OnlyNumber"/>
+
+                <!-- Tarih -->
+                <TextBlock Text="Tarih"/>
+                <DatePicker x:Name="dpDate" Margin="0,5,0,15"/>
+
+                <!-- Not -->
+                <TextBlock Text="Not"/>
+                <TextBox x:Name="txtNote"
+                         Margin="0,5,0,20"
+                         Height="60"
+                         TextWrapping="Wrap"/>
+
+                <!-- Buton -->
+                <Button Content="Kaydet"
+                        Height="40"
+                        FontSize="16"
+                        Click="btnSave_Click"/>
+
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>
