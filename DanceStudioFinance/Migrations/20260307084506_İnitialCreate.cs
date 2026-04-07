@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace DanceStudioFinance.Migrations
+namespace VRFinanceApp.Migrations
 {
     /// <inheritdoc />
     public partial class İnitialCreate : Migration

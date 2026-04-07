@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DanceStudioFinance.Models
+namespace VRFinanceApp.Models
 {
     public class Income
     {

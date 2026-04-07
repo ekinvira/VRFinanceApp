@@ -1,9 +1,9 @@
 ﻿using System.Windows;
-using DanceStudioFinance.Data;
+using VRFinanceApp.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
 
-namespace DanceStudioFinance
+namespace VRFinanceApp
 {
     public partial class App : Application
     {

@@ -1,11 +1,11 @@
-﻿using DanceStudioFinance.Data;
-using DanceStudioFinance.Models;
+﻿using VRFinanceApp.Data;
+using VRFinanceApp.Models;
 using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace DanceStudioFinance.Views
+namespace VRFinanceApp.Views
 {
     public partial class ExpenseWindow : Window
     {

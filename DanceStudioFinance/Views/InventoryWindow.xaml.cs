@@ -1,11 +1,12 @@
-﻿using DanceStudioFinance.Data;
-using DanceStudioFinance.Models;
+﻿using VRFinanceApp.Data;
+using VRFinanceApp.Models;
 using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace DanceStudioFinance.Views
+namespace VRFinanceApp.Views
 {
     public partial class InventoryWindow : Window
     {
@@ -13,6 +14,7 @@ namespace DanceStudioFinance.Views
         {
             InitializeComponent();
             dpDate.SelectedDate = DateTime.Today;
+            LoadInventory();
         }
 
         private void OnlyNumber(object sender, TextCompositionEventArgs e)
@@ -42,8 +44,7 @@ namespace DanceStudioFinance.Views
 
                 int quantity = int.Parse(txtQuantity.Text);
                 decimal price = decimal.Parse(txtPrice.Text);
-
-                string category = ((ComboBoxItem)cmbCategory.SelectedItem).Content.ToString();
+                string category = ((ComboBoxItem)cmbCategory.SelectedItem).Content.ToString()!;
 
                 InventoryItem item = new InventoryItem
                 {
@@ -62,12 +63,55 @@ namespace DanceStudioFinance.Views
                 }
 
                 MessageBox.Show("Envanter kaydedildi.");
-                this.Close();
+                ClearForm();
+                LoadInventory();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Hata: " + ex.Message);
+                string errorMessage = ex.InnerException != null
+                    ? ex.InnerException.Message
+                    : ex.Message;
+
+                MessageBox.Show("Hata: " + errorMessage);
             }
+        }
+
+        private void LoadInventory()
+        {
+            using (AppDbContext db = new AppDbContext())
+            {
+                var items = db.InventoryItems
+                    .AsEnumerable()
+                    .Select(x => new
+                    {
+                        x.ItemName,
+                        x.Category,
+                        x.Quantity,
+                        UnitPrice = x.UnitPrice.ToString("N0") + " ₺",
+                        TotalValue = (x.Quantity * x.UnitPrice).ToString("N0") + " ₺",
+                        PurchaseDate = x.PurchaseDate.ToString("dd.MM.yyyy"),
+                        Note = string.IsNullOrWhiteSpace(x.Note) ? "-" : x.Note
+                    })
+                    .ToList();
+
+                dgInventory.ItemsSource = items;
+
+                decimal totalValue = db.InventoryItems
+                    .AsEnumerable()
+                    .Sum(x => x.Quantity * x.UnitPrice);
+
+                txtTotalInventoryValue.Text = totalValue.ToString("N0") + " ₺";
+            }
+        }
+
+        private void ClearForm()
+        {
+            txtItemName.Clear();
+            cmbCategory.SelectedItem = null;
+            txtQuantity.Clear();
+            txtPrice.Clear();
+            txtNote.Clear();
+            dpDate.SelectedDate = DateTime.Today;
         }
     }
 }

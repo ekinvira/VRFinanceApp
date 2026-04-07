@@ -1,7 +1,7 @@
-﻿using DanceStudioFinance.Models;
+﻿using VRFinanceApp.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace DanceStudioFinance.Data
+namespace VRFinanceApp.Data
 {
     public class AppDbContext : DbContext
     {

@@ -1,11 +1,11 @@
-﻿using DanceStudioFinance.Data;
+﻿using VRFinanceApp.Data;
 using System;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 
-namespace DanceStudioFinance.Views
+namespace VRFinanceApp.Views
 {
     public partial class ReportsWindow : Window
     {
