@@ -1,9 +1,13 @@
-﻿using VRFinanceApp.Data;
+﻿using LiveChartsCore;
+using LiveChartsCore.Measure;
+using LiveChartsCore.SkiaSharpView;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
+using VRFinanceApp.Data;
 
 namespace VRFinanceApp.Views
 {
@@ -51,9 +55,7 @@ namespace VRFinanceApp.Views
         {
             if (cmbMonth.SelectedValue != null && cmbYear.SelectedItem != null)
             {
-                int month = (int)cmbMonth.SelectedValue;
-                int year = (int)cmbYear.SelectedItem;
-                LoadReport(month, year);
+                LoadReport((int)cmbMonth.SelectedValue, (int)cmbYear.SelectedItem);
             }
         }
 
@@ -65,10 +67,7 @@ namespace VRFinanceApp.Views
                 return;
             }
 
-            int month = (int)cmbMonth.SelectedValue;
-            int year = (int)cmbYear.SelectedItem;
-
-            LoadReport(month, year);
+            LoadReport((int)cmbMonth.SelectedValue, (int)cmbYear.SelectedItem);
         }
 
         private void LoadReport(int month, int year)
@@ -87,12 +86,13 @@ namespace VRFinanceApp.Views
 
                 var incomeData = incomeSource
                     .GroupBy(x => x.Branch)
-                    .Select(g => new
+                    .Select(g => new BranchIncomeDto
                     {
                         Branch = g.Key,
+                        TotalAmountValue = g.Sum(x => x.Amount),
                         TotalAmount = g.Sum(x => x.Amount).ToString("N0") + " ₺"
                     })
-                    .OrderByDescending(x => ParseCurrency(x.TotalAmount))
+                    .OrderByDescending(x => x.TotalAmountValue)
                     .ToList();
 
                 var expenseData = expenseSource
@@ -105,7 +105,12 @@ namespace VRFinanceApp.Views
                     .OrderByDescending(x => ParseCurrency(x.TotalAmount))
                     .ToList();
 
-                dgIncomeReport.ItemsSource = incomeData;
+                dgIncomeReport.ItemsSource = incomeData.Select(x => new
+                {
+                    x.Branch,
+                    x.TotalAmount
+                }).ToList();
+
                 dgExpenseReport.ItemsSource = expenseData;
 
                 decimal totalIncome = incomeSource.Sum(x => x.Amount);
@@ -116,15 +121,31 @@ namespace VRFinanceApp.Views
                 txtMonthlyExpense.Text = totalExpense.ToString("N0") + " ₺";
                 txtMonthlyNet.Text = net.ToString("N0") + " ₺";
 
-                if (net < 0)
-                {
-                    borderMonthlyNet.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EF4444"));
-                }
-                else
-                {
-                    borderMonthlyNet.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#3B82F6"));
-                }
+                borderMonthlyNet.Background = new SolidColorBrush(
+                    (Color)ColorConverter.ConvertFromString(net < 0 ? "#EF4444" : "#3B82F6"));
+
+                LoadIncomePieChart(incomeData);
             }
+        }
+
+        private void LoadIncomePieChart(List<BranchIncomeDto> incomeData)
+        {
+            var series = new List<ISeries>();
+
+            foreach (var item in incomeData)
+            {
+                series.Add(new PieSeries<decimal>
+                {
+                    Values = new[] { item.TotalAmountValue },
+                    Name = item.Branch,
+                    InnerRadius = 70,
+                    DataLabelsSize = 14,
+                    DataLabelsPosition = PolarLabelsPosition.Middle,
+                    DataLabelsFormatter = point => point.Coordinate.PrimaryValue.ToString("N0") + " ₺"
+                });
+            }
+
+            incomePieChart.Series = series;
         }
 
         private decimal ParseCurrency(string value)
@@ -138,6 +159,13 @@ namespace VRFinanceApp.Views
         {
             public int Value { get; set; }
             public string Name { get; set; } = "";
+        }
+
+        private class BranchIncomeDto
+        {
+            public string Branch { get; set; } = "";
+            public decimal TotalAmountValue { get; set; }
+            public string TotalAmount { get; set; } = "";
         }
     }
 }
